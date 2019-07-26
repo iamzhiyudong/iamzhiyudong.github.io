@@ -6,12 +6,12 @@
   <meta name="author" content="Zhi yudong">
   
   
-  <title>Hello World | iamzhiyudong</title>
+  <title>hexo博客图片问题 | iamzhiyudong</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iamzhiyudong, zhiyudong">
+    <meta name="keywords" content="其他技能,博客搭建,GitHub,hexo,">
   
 
   
@@ -160,8 +160,12 @@
   <div class="passage">
   <div class="passage-meta">
     <span>
-      <i class="fa fa-calendar"></i>2019-07-25
+      <i class="fa fa-calendar"></i>2019-07-26
     </span>
+    
+      <span>
+        | <a href="/categories/其他技能/"><i class="fa fa-bookmark"></i>其他技能</a>
+      </span>
     
     
       <span>
@@ -170,23 +174,29 @@
     
   </div>
   <h1 class="passage-title">
-    Hello World
+    hexo博客图片问题
   </h1>
   
   <article class="passage-article">
-    <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+    <p><strong>本人的解决方案</strong></p>
+<hr>
+<blockquote>
+<ul>
+<li>将hexo的主页配置文件中的<code>_config.yml</code>里的<code>post_asset_folder</code>设置为<code>true</code>。</li>
+<li>在git bash里运行<code>npm install hexo-asset-image –save</code>，安装上传图片的插件</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>安装完成后，再运行<code>hexo n xxx</code>来生成md文件时，/source/_posts文件夹内除了xxx.md文件还有一个同名的文件夹，这个文件夹用来存放博文中用到的图片</li>
+<li>引用图片时通过正常语法<code>![替代文字](xxx.png)</code>引用</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>最后<code>hexo g</code>生成和 <code>hexo d</code>上传至github</li>
+</ul>
+</blockquote>
 
   </article>
   <aside class="table-content" id="site-toc">
@@ -195,7 +205,7 @@
     <span>目录</span>
   </div>
   <div class="table-content-main">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+    
   </div>
 </aside>
   
@@ -204,7 +214,7 @@
       
         <div>
           原文链接: 
-          <a href="" target="_blank">http://yoursite.com/2019/07/25/hello-world/</a>
+          <a href="" target="_blank">http://yoursite.com/2019/07/26/hexo博客图片问题/</a>
         </div>
       
       <div>
@@ -212,6 +222,16 @@
       </div>
     </aside>
   
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/博客搭建/"><i class="fa fa-tags"></i>博客搭建</a>
+     
+      <a href="/tags/GitHub/"><i class="fa fa-tags"></i>GitHub</a>
+     
+      <a href="/tags/hexo/"><i class="fa fa-tags"></i>hexo</a>
+    
+    </div>
   
 </div>
 
