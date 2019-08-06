@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Zhi yudong">
+  
+  
+  <title>JS函数提升和变量提升 | iamzhiyudong</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="JS,JS,JavaScript,函数提升,">
+  
+
+  
+  <meta name="description" content="支玉栋的小站">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2019-07-25",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhi yudong",
+    share: {"twitter":false,"facebook":false,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">iamzhiyudong</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 我们仍需与生命的慷慨与繁华相爱，即使岁月以荒芜和刻薄相欺。</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/iamzhiyudong" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-08-05
+    </span>
+    
+      <span>
+        | <a href="/categories/JS/"><i class="fa fa-bookmark"></i>JS</a>
+      </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    JS函数提升和变量提升
+  </h1>
+  
+  <article class="passage-article">
+    <h2 id="1-1什么是函数提升和变量的提升？"><a href="#1-1什么是函数提升和变量的提升？" class="headerlink" title="1.1什么是函数提升和变量的提升？"></a>1.1什么是函数提升和变量的提升？</h2><blockquote>
+<p>JS引擎在运行整个JS代码的过程中，分为俩步。<br>第一步是读取和解析JS代码，第二部是执行。<br>在引擎解析JS代码的时候，当解析器遇见变量声明（var 变量名）和函数声明<br>（function 函数名）的时候，会将这些声明提到各自作用域的最前面。</p>
+</blockquote>
+<h2 id="1-2-作用域"><a href="#1-2-作用域" class="headerlink" title="1.2 作用域"></a>1.2 作用域</h2><blockquote>
+<p>在ES6之前，JS是没有块级作用域的。只有2种作用域：</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>1.全局作用域</li>
+<li>2.函数作用域</li>
+</ul>
+</blockquote>
+<blockquote>
+<p> 注：在其他语言中，{…}被称为代码块，所形成的作用域被称作块级作用域，如：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(...)&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line"><span class="built_in">console</span>.log(i);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果以上俩例子有块级作用域的话，a,b,i是不能被访问到的，但是<br>        在JS中是可以的（ES6之前），所以没有块级作用域。</p>
+</blockquote>
+<h2 id="2-1-变量提升"><a href="#2-1-变量提升" class="headerlink" title="2.1 变量提升"></a>2.1 变量提升</h2><h3 id="2-1-1-声明变量"><a href="#2-1-1-声明变量" class="headerlink" title="2.1.1 声明变量"></a>2.1.1 声明变量</h3><blockquote>
+<p>首先我们声明变量是通过var关键字，如果不用var直接赋值的话会被解析器<br>当作是全局变量。但是切记，<strong>变量的提升只限于用var声明的变量</strong>，没通过<br>var声明的变量将不会被提升。看下边的例子：</p>
+</blockquote>
+<p>1.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a);<span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 输出的结果为1，没问题，因为代码在执行的时候是按顺序执行的。</span></span><br><span class="line"><span class="comment">// 解析的时候，经过变量提升后的结果如下：</span></span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line">a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a);<span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);<span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// 这次的结果输出为undefined，我们都知道，当一个变量声明了却未赋值的时候就会出现undefined,</span></span><br><span class="line"><span class="comment">// 但是一个变量没有声明的话，就会输出 a is not defined,先看本例经变量提升后的结果：</span></span><br><span class="line"><span class="keyword">var</span> a ;</span><br><span class="line"><span class="built_in">console</span>.log(a);<span class="comment">// undefined</span></span><br><span class="line">a = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// 所以由此可见，变量的提升只会提升变量的声明，而不会提升变量的赋值。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);<span class="comment">// a is not defined</span></span><br><span class="line">a = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// 当我们把var去掉的时候，结果变成了 a is not defined，很明显，没有var声明的变量，没有被提升至作用域的最前边，也就是变量提升只是对用var声明的变量而言的。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数的内部也是如此</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a);<span class="comment">//undefined</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">&#125;)()</span><br><span class="line">提升结果如下：</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a</span><br><span class="line">    <span class="built_in">console</span>.log(a);<span class="comment">//undefined</span></span><br><span class="line">    a = <span class="number">1</span>;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="2-1-2-所以暂时我们可以总结一下变量提升："><a href="#2-1-2-所以暂时我们可以总结一下变量提升：" class="headerlink" title="2.1.2 所以暂时我们可以总结一下变量提升："></a>2.1.2 所以暂时我们可以总结一下变量提升：</h3><blockquote>
+<ol>
+<li>只有用var声明的变量才存在变量提升这一说法</li>
+<li>变量提升只提升变量的声明，不会提升赋值这一部分；</li>
+</ol>
+</blockquote>
+<h2 id="3-1-函数提升"><a href="#3-1-函数提升" class="headerlink" title="3.1 函数提升"></a>3.1 函数提升</h2><h3 id="3-1-1函数的声明"><a href="#3-1-1函数的声明" class="headerlink" title="3.1.1函数的声明"></a>3.1.1函数的声明</h3><blockquote>
+<p>函数的声明有俩种方式，一种为：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//另一种为:</span></span><br><span class="line"><span class="keyword">var</span> fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 首先的我们得知道函数属于引用类型，函数名实际上相当于一个指针，保存的是函数体所在的地址，所以函数也可以通过函数表达式var fn来声明，但是同为函数，他们的提升结果却是不同的。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-2-函数式声明"><a href="#3-1-2-函数式声明" class="headerlink" title="3.1.2 函数式声明"></a>3.1.2 函数式声明</h3><p>1.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;</span><br><span class="line">fn();<span class="comment">// hello</span></span><br><span class="line"><span class="comment">// 结果输出为hello，这个不难理解，代码的顺序执行。函数提升后的结果还是这样。</span></span><br></pre></td></tr></table></figure>
+
+<p>2.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fn();<span class="comment">// hello</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>)；</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 执行结果还是hello,因为函数在解析代码的时候，同样，函数的声明被提到了作用域的最前边，如下：</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;</span><br><span class="line">fn();<span class="comment">// hello</span></span><br><span class="line"><span class="comment">// 需要注意的是整个function fn()&#123;...&#125;均为函数的定义（声明）。</span></span><br></pre></td></tr></table></figure>
+
+<p>3.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;</span><br><span class="line">fn();<span class="comment">//hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 用var声明的函数同变量一样，先把定义提升至最前边，如下：</span></span><br><span class="line"><span class="keyword">var</span> fn;</span><br><span class="line">fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;</span><br><span class="line">fn();<span class="comment">//hello</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fn();<span class="comment">//fn is not a function</span></span><br><span class="line"><span class="keyword">var</span> fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 但是将用var声明的函数放在后边就不行了，因为这样声明的函数，提升后是下边这样的：</span></span><br><span class="line"><span class="keyword">var</span> fn；</span><br><span class="line">fn();<span class="comment">//fn is not a function</span></span><br><span class="line">fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 同变量提升一样，提升的只是定义，并没有赋值。</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="4-综合运用"><a href="#4-综合运用" class="headerlink" title="4 综合运用"></a>4 综合运用</h2><p>1.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123; <span class="comment">//定义函数</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">3</span>;     <span class="comment">//变量</span></span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"></span><br><span class="line">运行结果如下：</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>2.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
+
+<p><strong>由此可见</strong></p>
+<blockquote>
+<p>俩次举例中，函数和变量是同名的，在代码未执行到变量赋值语句的时候，console打印出来的均为函数，变量赋值以后，打印的才是刚刚赋的值，所以由综合例子可以得出：<code>当变量和函数同名时，函数的优先级高！</code></p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p><strong>由以上的例子不难看出变量提升和函数提升的特点，可以总结如下：</strong></p>
+<ol>
+<li>所有的声明都会提升到各自作用域的最顶上去。</li>
+<li>只有用var声明的变量才存在变量提升这一说法</li>
+<li>变量提升只提升变量的声明，不会提升赋值这一部分；</li>
+<li>同一个变量只会声明一次，其他的会被忽略掉。</li>
+<li>函数声明的优先级高于变量声明的优先级</li>
+<li>所有变量的声明，在函数内部第一行代码开始执行的时候就已经完成。 </li>
+</ol>
+</blockquote>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1什么是函数提升和变量的提升？"><span class="toc-text">1.1什么是函数提升和变量的提升？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-作用域"><span class="toc-text">1.2 作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-变量提升"><span class="toc-text">2.1 变量提升</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-声明变量"><span class="toc-text">2.1.1 声明变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-所以暂时我们可以总结一下变量提升："><span class="toc-text">2.1.2 所以暂时我们可以总结一下变量提升：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-函数提升"><span class="toc-text">3.1 函数提升</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1函数的声明"><span class="toc-text">3.1.1函数的声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-2-函数式声明"><span class="toc-text">3.1.2 函数式声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-综合运用"><span class="toc-text">4 综合运用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 支玉栋</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://yoursite.com/2019/08/05/2019-08-05-JS函数提升和变量提升/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/JS/"><i class="fa fa-tags"></i>JS</a>
+     
+      <a href="/tags/JavaScript/"><i class="fa fa-tags"></i>JavaScript</a>
+     
+      <a href="/tags/函数提升/"><i class="fa fa-tags"></i>函数提升</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      
+        <div class="site-footer-col">
+          <h5 class="site-footer-title">这也是我</h5>
+          
+            <span class="site-footer-item">
+              <a href="https://blog.csdn.net/iamzhiyudong" target="_blank">CSDN</a>
+            </span>
+          
+            <span class="site-footer-item">
+              <a href="https://www.cnblogs.com/iamzhiyudong/" target="_blank">博客园</a>
+            </span>
+          
+        </div>
+      
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: zhiyudongwork@163.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/07/26/2019-07-26-hexo博客图片问题/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+  <script async>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+  </script>
+
+
+
+  <script async>
+    (function(){
+    var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?":"https://jspassport.ssl.qhimg.com/11.0.1.js?";
+    document.write('<script src="' + src + '" id="sozz"><\/script>');
+    })();
+  </script>
+
+
+    
+  </body>
+</html>

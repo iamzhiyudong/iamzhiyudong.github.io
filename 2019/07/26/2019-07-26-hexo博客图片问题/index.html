@@ -6,12 +6,12 @@
   <meta name="author" content="Zhi yudong">
   
   
-  <title>分类: pyhton | iamzhiyudong</title>
+  <title>hexo博客图片问题 | iamzhiyudong</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iamzhiyudong, zhiyudong">
+    <meta name="keywords" content="其他技能,博客搭建,GitHub,hexo,">
   
 
   
@@ -38,7 +38,7 @@
     welcome: {"enable":false,"interval":30},
     start_time: "2019-07-25",
     passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
-    is_post: false,
+    is_post: true,
     lock: false,
     author: "Zhi yudong",
     share: {"twitter":false,"facebook":false,"weibo":true,"qq":true,"wechat":true},
@@ -156,18 +156,85 @@
 </nav>
 <div id="site-process"></div>
     <main>
-      <div class="timeline">
-  <h2 class="timeline-title">系列: pyhton</h2>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-07-26
+    </span>
+    
+      <span>
+        | <a href="/categories/其他技能/"><i class="fa fa-bookmark"></i>其他技能</a>
+      </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    hexo博客图片问题
+  </h1>
   
+  <article class="passage-article">
+    <p><strong>本人的解决方案</strong></p>
+<hr>
+<blockquote>
+<ul>
+<li>将hexo的主页配置文件中的<code>_config.yml</code>里的<code>post_asset_folder</code>设置为<code>true</code>。</li>
+<li>在git bash里运行<code>npm install hexo-asset-image –save</code>，安装上传图片的插件</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>安装完成后，再运行<code>hexo n xxx</code>来生成md文件时，/source/_posts文件夹内除了xxx.md文件还有一个同名的文件夹，这个文件夹用来存放博文中用到的图片</li>
+<li>引用图片时通过正常语法<code>![替代文字](xxx.png)</code>引用</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>最后<code>hexo g</code>生成和 <code>hexo d</code>上传至github</li>
+</ul>
+</blockquote>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
     
-      <h3 class="timeline-subtitle">2019</h3>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 支玉栋</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://yoursite.com/2019/07/26/2019-07-26-hexo博客图片问题/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/博客搭建/"><i class="fa fa-tags"></i>博客搭建</a>
+     
+      <a href="/tags/GitHub/"><i class="fa fa-tags"></i>GitHub</a>
+     
+      <a href="/tags/hexo/"><i class="fa fa-tags"></i>hexo</a>
     
-    <div class="timeline-item">
-      <time>2019-04-30</time>
-      <a target="_self" href="/2019/04/30/2019-04-23-Python爬取有声小说/">Python爬取有声小说</a>
     </div>
   
 </div>
+
     </main>
     
     <div class="site-footer-wrapper">
@@ -246,15 +313,15 @@
 
 <div class="bottom-bar">
   <div class="bottom-bar-left">
-    <a href="javascript:void(0);" data-enable="false">
+    <a href="/2019/08/05/2019-08-05-JS函数提升和变量提升/" data-enable="true">
       <i class="fa fa-arrow-left"></i>
     </a>
-    <a href="javascript:void(0);" data-enable="false">
+    <a href="/2019/07/25/2019-07-25-hexo+github搭建个人博客/" data-enable="true">
       <i class="fa fa-arrow-right"></i>
     </a>
   </div>
   <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
       <i class="fa fa-bars"></i>
     </a>
     
